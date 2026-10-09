@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpConnectTimeoutException;
@@ -116,9 +117,17 @@ public final class HttpExistingCalculationClient implements ExistingCalculationC
         return amount.signum() == 0 ? "0" : amount.stripTrailingZeros().toPlainString();
     }
 
+    /** A readable reason; the JDK client often wraps the real cause in an exception without a message. */
     private static String describe(IOException e) {
-        String message = e.getMessage();
-        return message == null || message.isBlank() ? e.getClass().getSimpleName() : message;
+        for (Throwable cause = e; cause != null; cause = cause.getCause()) {
+            if (cause instanceof ConnectException) {
+                return "connection refused (check the URL and that the service is up)";
+            }
+            if (cause.getMessage() != null && !cause.getMessage().isBlank()) {
+                return cause.getMessage();
+            }
+        }
+        return e.getClass().getSimpleName();
     }
 
     private static String seconds(Duration duration) {

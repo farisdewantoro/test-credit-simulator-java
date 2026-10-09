@@ -150,7 +150,8 @@ class HttpExistingCalculationClientTest {
 
         RemoteServiceException error = assertThrows(RemoteServiceException.class, client::fetch);
 
-        assertTrue(error.getMessage().startsWith("Could not reach calculation service: "), error.getMessage());
+        assertEquals("Could not reach calculation service: connection refused (check the URL and that the service is up)",
+                error.getMessage());
     }
 
     private RemoteServiceException failure() {
