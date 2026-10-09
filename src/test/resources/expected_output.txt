@@ -1,0 +1,56 @@
+> jenis mobil
+Vehicle type set to Mobil
+> kondisi bekas
+Vehicle condition set to Bekas
+> tahun 2022
+Vehicle year set to 2022
+> nominal 100000000
+Loan amount set to Rp. 100,000,000.00
+> tenor 3
+Tenor set to 3 thn
+> dp 25000000
+Down payment set to Rp. 25,000,000.00
+> calculate
+Monthly installments for Mobil Bekas 2022, principal Rp. 75,000,000.00:
+tahun 1 : Rp. 2,250,000.00/bln , Suku Bunga : 8%
+tahun 2 : Rp. 2,432,250.00/bln , Suku Bunga : 8,1%
+tahun 3 : Rp. 2,641,423.50/bln , Suku Bunga : 8,6%
+> jenis motor
+Vehicle type set to Motor
+> kondisi bekas
+Vehicle condition set to Bekas
+> tahun 2019
+Vehicle year set to 2019
+> nominal 20000000
+Loan amount set to Rp. 20,000,000.00
+> tenor 1
+Tenor set to 1 thn
+> dp 5000000
+Down payment set to Rp. 5,000,000.00
+> calculate
+Monthly installments for Motor Bekas 2019, principal Rp. 15,000,000.00:
+tahun 1 : Rp. 1,362,500.00/bln , Suku Bunga : 9%
+> status
+Sheet 'default'
+  jenis   : Motor
+  kondisi : Bekas
+  tahun   : 2019
+  nominal : Rp. 20,000,000.00
+  tenor   : 1 thn
+  dp      : Rp. 5,000,000.00
+  result  :
+    tahun 1 : Rp. 1,362,500.00/bln , Suku Bunga : 9%
+> show
+Available commands:
+  show                  List all available commands
+  jenis <Mobil|Motor>   Set the vehicle type
+  kondisi <Baru|Bekas>  Set the vehicle condition (new or used)
+  tahun <yyyy>          Set the vehicle year (4 digits)
+  nominal <amount>      Set the total loan amount in rupiah (max 1000000000)
+  tenor <1-6>           Set the loan tenor in years
+  dp <amount>           Set the down payment in rupiah (Baru >= 35%, Bekas >= 25% of loan)
+  status                Show the active sheet's inputs and its last result
+  calculate             Validate the inputs and show the monthly installment for each year
+  exit                  Quit the application
+> exit
+Bye!

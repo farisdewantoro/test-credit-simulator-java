@@ -1,0 +1,24 @@
+# Credit simulator sample input. Run with: ./credit_simulator samples/file_inputs.txt
+# One command per line; blank lines and lines starting with '#' are ignored.
+
+# Example 1 (= Rumus.xlsx): used car, 25% DP
+jenis mobil
+kondisi bekas
+tahun 2022
+nominal 100000000
+tenor 3
+dp 25000000
+calculate
+
+# Example 2: used motorcycle, one year
+jenis motor
+kondisi bekas
+tahun 2019
+nominal 20000000
+tenor 1
+dp 5000000
+calculate
+
+status
+show
+exit
