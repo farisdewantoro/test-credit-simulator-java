@@ -2,6 +2,7 @@ package com.creditsimulator.controller.command;
 
 import com.creditsimulator.controller.command.impl.CalculateCommand;
 import com.creditsimulator.controller.command.impl.ExitCommand;
+import com.creditsimulator.controller.command.impl.LoadCommand;
 import com.creditsimulator.controller.command.impl.SetConditionCommand;
 import com.creditsimulator.controller.command.impl.SetDownPaymentCommand;
 import com.creditsimulator.controller.command.impl.SetLoanAmountCommand;
@@ -35,6 +36,7 @@ public final class CommandFactory {
         factory.register(new SetDownPaymentCommand());
         factory.register(new StatusCommand());
         factory.register(new CalculateCommand());
+        factory.register(new LoadCommand());
         factory.register(new ExitCommand());
         return factory;
     }

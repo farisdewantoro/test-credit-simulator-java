@@ -2,6 +2,7 @@ package com.creditsimulator.controller;
 
 import com.creditsimulator.io.InputSource;
 import com.creditsimulator.model.Workspace;
+import com.creditsimulator.service.ExistingCalculationClient;
 import com.creditsimulator.service.InstallmentCalculator;
 import com.creditsimulator.service.LoanValidator;
 import com.creditsimulator.view.ConsoleView;
@@ -14,7 +15,8 @@ public record CommandContext(
         ConsoleView view,
         InputSource input,
         LoanValidator validator,
-        InstallmentCalculator calculator) {
+        InstallmentCalculator calculator,
+        ExistingCalculationClient client) {
 
     public CommandContext {
         Objects.requireNonNull(workspace, "workspace");
@@ -22,5 +24,6 @@ public record CommandContext(
         Objects.requireNonNull(input, "input");
         Objects.requireNonNull(validator, "validator");
         Objects.requireNonNull(calculator, "calculator");
+        Objects.requireNonNull(client, "client");
     }
 }

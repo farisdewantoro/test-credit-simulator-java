@@ -51,6 +51,7 @@ Available commands:
   dp <amount>           Set the down payment in rupiah (Baru >= 35%, Bekas >= 25% of loan)
   status                Show the active sheet's inputs and its last result
   calculate             Validate the inputs and show the monthly installment for each year
+  load                  Load an existing calculation from the web service and calculate it
   exit                  Quit the application
 > exit
 Bye!

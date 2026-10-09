@@ -9,6 +9,7 @@ import com.creditsimulator.io.FileInputSource;
 import com.creditsimulator.io.InputSource;
 import com.creditsimulator.model.Workspace;
 import com.creditsimulator.policy.VehiclePolicyFactory;
+import com.creditsimulator.service.HttpExistingCalculationClient;
 import com.creditsimulator.service.InstallmentCalculator;
 import com.creditsimulator.service.LoanValidator;
 import com.creditsimulator.view.ConsoleView;
@@ -52,9 +53,15 @@ public final class CreditSimulatorApplication {
     public static void main(String[] args) {
         PrintStream out = new PrintStream(new FileOutputStream(FileDescriptor.out), true, StandardCharsets.UTF_8);
         PrintStream err = new PrintStream(new FileOutputStream(FileDescriptor.err), true, StandardCharsets.UTF_8);
-        int exitCode = new CreditSimulatorApplication(AppConfig.fromEnvironment(System.getenv()), System.in, out, err)
-                .run(args);
-        System.exit(exitCode);
+        AppConfig config;
+        try {
+            config = AppConfig.fromEnvironment(System.getenv());
+        } catch (IllegalArgumentException e) {
+            err.println(e.getMessage());
+            System.exit(EXIT_USAGE);
+            return;
+        }
+        System.exit(new CreditSimulatorApplication(config, System.in, out, err).run(args));
     }
 
     public int run(String[] args) {
@@ -90,7 +97,8 @@ public final class CreditSimulatorApplication {
                 view,
                 input,
                 new LoanValidator(policies, config.clock()),
-                new InstallmentCalculator(policies));
+                new InstallmentCalculator(policies),
+                new HttpExistingCalculationClient(config.loadUrl(), config.connectTimeout(), config.requestTimeout()));
         return new SimulatorController(input, CommandFactory.withDefaultCommands(), context);
     }
 

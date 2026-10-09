@@ -76,7 +76,7 @@ class CreditSimulatorApplicationE2ETest {
     }
 
     private int run(String stdin, String... args) {
-        AppConfig config = new AppConfig(TestConsole.CLOCK, false);
+        AppConfig config = AppConfig.withClock(TestConsole.CLOCK);
         return new CreditSimulatorApplication(config,
                 new ByteArrayInputStream(stdin.getBytes(StandardCharsets.UTF_8)),
                 new PrintStream(out, true, StandardCharsets.UTF_8),

@@ -3,9 +3,11 @@ package com.creditsimulator.support;
 import com.creditsimulator.controller.CommandContext;
 import com.creditsimulator.controller.SimulatorController;
 import com.creditsimulator.controller.command.CommandFactory;
+import com.creditsimulator.exception.RemoteServiceException;
 import com.creditsimulator.io.InputSource;
 import com.creditsimulator.model.Workspace;
 import com.creditsimulator.policy.VehiclePolicyFactory;
+import com.creditsimulator.service.ExistingCalculationClient;
 import com.creditsimulator.service.InstallmentCalculator;
 import com.creditsimulator.service.LoanValidator;
 import com.creditsimulator.view.PlainConsoleView;
@@ -29,7 +31,16 @@ public final class TestConsole {
     private final CommandContext context;
     private final InputSource input;
 
+    /** Used when a test does not care about {@code load}. */
+    private static final ExistingCalculationClient NO_SERVICE = () -> {
+        throw new RemoteServiceException("No calculation service in this test");
+    };
+
     public TestConsole(InputSource input) {
+        this(input, NO_SERVICE);
+    }
+
+    public TestConsole(InputSource input, ExistingCalculationClient client) {
         this.input = input;
         VehiclePolicyFactory policies = new VehiclePolicyFactory();
         this.context = new CommandContext(
@@ -37,7 +48,8 @@ public final class TestConsole {
                 new PlainConsoleView(stream(out), stream(err), false),
                 input,
                 new LoanValidator(policies, CLOCK),
-                new InstallmentCalculator(policies));
+                new InstallmentCalculator(policies),
+                client);
     }
 
     /** Interactive console that will answer with {@code lines}. */
