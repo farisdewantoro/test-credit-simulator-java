@@ -4,7 +4,7 @@
 |---|---|
 | Author | Faris Dewantoro |
 | Date | 2026-10-09 |
-| Status | Draft, for review before implementation |
+| Status | Implemented (see §14 for deviations found during implementation) |
 | Language | Java 17 (Maven) |
 | Source | `TechTest Backend.pdf`, `Rumus.xlsx`, reference jar `credit_simulator.jar` (commit `2320d2b`) |
 
@@ -384,7 +384,9 @@ dp 25000000
 calculate
 save_sheet mobil-bekas
 
-# Example 2: used motorcycle in a second sheet
+# Example 2: used motorcycle in a second sheet. save_sheet made 'mobil-bekas' active,
+# so go back to the working sheet first or the edits below would change 'mobil-bekas'.
+switch_sheet default
 jenis motor
 kondisi bekas
 tahun 2019
@@ -623,3 +625,15 @@ Each step is a commit (or a few), so the history shows how the solution evolved.
 | Reviewer has no JDK 17 | The Docker image is the fallback, and the README lists both paths |
 | Future: saving sheets to disk | `SheetRepository` interface (JSON file in `~/.credit_simulator/`). Kept out of scope by A9 |
 | Future: REST API | The MVC split means a new controller/view can reuse `LoanValidator` and `InstallmentCalculator` as they are |
+
+## 14. Implementation notes
+
+Small deviations and clarifications found while implementing:
+
+| Item | Note |
+|---|---|
+| §6.1 sample session | The original sample edited the motorcycle loan straight after `save_sheet mobil-bekas`. Because `save_sheet` makes the new sheet active (§7), that overwrote `mobil-bekas`. The sample now runs `switch_sheet default` first; §7's "save as" behaviour is unchanged |
+| `InputSource` | Returns plain lines and exposes `lastLocation()` (e.g. `file_inputs.txt:7`) rather than an `InputLine` record, so errors raised while the `new` flow reads answers point at the answer's line |
+| Commit order | `ConsoleFormatter` was committed before `LoanValidator`, whose messages format rupiah amounts. `Sheet`/`Workspace` were introduced with the controller (the commands need an active sheet) and extended with save/switch/list in the sheet step |
+| Launcher | Also rejects a `java` that exists but does not run (the macOS `/usr/bin/java` stub without a JDK). Rebuild is triggered by changes to `pom.xml` or `src/main`, not tests |
+| Field-level vs rule checks | `nominal` only checks the format; the 1,000,000,000 cap is enforced by `LoanValidator`, so loaded data that breaks it is kept in the sheet and reported (§8) |
