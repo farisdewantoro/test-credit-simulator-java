@@ -1,0 +1,67 @@
+#!/bin/sh
+# ----------------------------------------------------------------------------
+# credit_simulator launcher
+#
+#   ./credit_simulator                    interactive mode
+#   ./credit_simulator file_inputs.txt    run the commands in a file
+#
+# Needs only a JDK 17+. On the first run (or after the sources change) it
+# builds target/credit-simulator.jar with the Maven Wrapper, then starts it.
+# ----------------------------------------------------------------------------
+set -eu
+
+# Directory of this script, following symlinks, so it works from anywhere.
+resolve_home() {
+  target=$1
+  while [ -L "$target" ]; do
+    link=$(readlink "$target")
+    case $link in
+      /*) target=$link ;;
+      *) target=$(dirname "$target")/$link ;;
+    esac
+  done
+  cd "$(dirname "$target")" && pwd -P
+}
+
+APP_HOME=$(resolve_home "$0")
+JAR="$APP_HOME/target/credit-simulator.jar"
+
+die() {
+  echo "credit_simulator: $*" >&2
+  exit 2
+}
+
+# --- Java 17+ ----------------------------------------------------------------
+if [ -n "${JAVA_HOME:-}" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+  JAVA="$JAVA_HOME/bin/java"
+elif command -v java >/dev/null 2>&1; then
+  JAVA=java
+else
+  die "Java 17 or newer is required but 'java' was not found. Install a JDK 17+ or set JAVA_HOME (or use the Docker image, see README.md)."
+fi
+
+# macOS ships a /usr/bin/java stub even without a JDK, so check that it really runs.
+java_banner=$("$JAVA" -version 2>&1) ||
+  die "Java 17 or newer is required but '$JAVA' does not run. Install a JDK 17+ or set JAVA_HOME (or use the Docker image, see README.md)."
+java_version=$(echo "$java_banner" | awk -F'"' '/version/ { print $2; exit }')
+java_major=${java_version%%.*}
+if [ "$java_major" = "1" ]; then
+  java_major=$(echo "$java_version" | cut -d. -f2)
+fi
+case $java_major in
+  '' | *[!0-9]*) echo "credit_simulator: warning: could not detect the Java version, trying anyway" >&2 ;;
+  *) [ "$java_major" -ge 17 ] || die "Java 17 or newer is required, found Java $java_version ($JAVA)." ;;
+esac
+
+# --- Build when the jar is missing or older than the sources --------------------
+needs_build() {
+  [ -f "$JAR" ] || return 0
+  [ -n "$(find "$APP_HOME/pom.xml" "$APP_HOME/src/main" -newer "$JAR" -print 2>/dev/null | head -n 1)" ]
+}
+
+if needs_build; then
+  echo "credit_simulator: building (first run only, this can take a minute)..." >&2
+  (cd "$APP_HOME" && ./mvnw -q -B -DskipTests package) >&2 || die "build failed, run './mvnw package' to see why."
+fi
+
+exec "$JAVA" -jar "$JAR" "$@"

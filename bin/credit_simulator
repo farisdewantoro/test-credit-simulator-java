@@ -1,0 +1,3 @@
+#!/bin/sh
+# Same as ./credit_simulator, so the app can also be run as bin/credit_simulator.
+exec "$(cd "$(dirname "$0")/.." && pwd -P)/credit_simulator" "$@"
