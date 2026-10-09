@@ -2,7 +2,9 @@ package com.creditsimulator.controller.command;
 
 import com.creditsimulator.controller.command.impl.CalculateCommand;
 import com.creditsimulator.controller.command.impl.ExitCommand;
+import com.creditsimulator.controller.command.impl.ListSheetsCommand;
 import com.creditsimulator.controller.command.impl.LoadCommand;
+import com.creditsimulator.controller.command.impl.SaveSheetCommand;
 import com.creditsimulator.controller.command.impl.SetConditionCommand;
 import com.creditsimulator.controller.command.impl.SetDownPaymentCommand;
 import com.creditsimulator.controller.command.impl.SetLoanAmountCommand;
@@ -11,6 +13,7 @@ import com.creditsimulator.controller.command.impl.SetVehicleTypeCommand;
 import com.creditsimulator.controller.command.impl.SetYearCommand;
 import com.creditsimulator.controller.command.impl.ShowCommand;
 import com.creditsimulator.controller.command.impl.StatusCommand;
+import com.creditsimulator.controller.command.impl.SwitchSheetCommand;
 import com.creditsimulator.exception.UnknownCommandException;
 
 import java.util.Arrays;
@@ -37,6 +40,9 @@ public final class CommandFactory {
         factory.register(new StatusCommand());
         factory.register(new CalculateCommand());
         factory.register(new LoadCommand());
+        factory.register(new SaveSheetCommand());
+        factory.register(new SwitchSheetCommand());
+        factory.register(new ListSheetsCommand());
         factory.register(new ExitCommand());
         return factory;
     }

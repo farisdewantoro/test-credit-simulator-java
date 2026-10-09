@@ -90,18 +90,32 @@ public final class PlainConsoleView implements ConsoleView {
 
     @Override
     public void sheets(List<Sheet> sheets, Sheet active) {
-        int nameWidth = sheets.stream().mapToInt(sheet -> sheet.name().length()).max().orElse(0);
-        for (Sheet sheet : sheets) {
-            LoanDraft draft = sheet.draft();
-            String vehicle = text(draft.vehicleType()) + "/" + text(draft.condition()) + "/" + text(draft.vehicleYear());
-            out.println((sheet == active ? "* " : "  ")
-                    + pad(sheet.name(), nameWidth) + "  "
-                    + vehicle + "  "
-                    + draft.loanAmount().map(ConsoleFormatter::money).orElse(UNSET) + "  "
-                    + draft.tenor().map(tenor -> tenor + " thn").orElse(UNSET) + "  "
-                    + (sheet.lastResult().isPresent() ? "✔ calculated" : "not calculated"));
+        List<String[]> rows = sheets.stream().map(PlainConsoleView::summaryColumns).toList();
+        int[] widths = new int[rows.isEmpty() ? 0 : rows.get(0).length];
+        rows.forEach(row -> {
+            for (int i = 0; i < row.length; i++) {
+                widths[i] = Math.max(widths[i], row[i].length());
+            }
+        });
+        for (int r = 0; r < rows.size(); r++) {
+            String[] row = rows.get(r);
+            StringBuilder line = new StringBuilder(sheets.get(r) == active ? "* " : "  ");
+            for (int i = 0; i < row.length; i++) {
+                line.append(i == row.length - 1 ? row[i] : pad(row[i], widths[i]) + "  ");
+            }
+            out.println(line);
         }
         out.flush();
+    }
+
+    private static String[] summaryColumns(Sheet sheet) {
+        LoanDraft draft = sheet.draft();
+        return new String[]{
+                sheet.name(),
+                text(draft.vehicleType()) + "/" + text(draft.condition()) + "/" + text(draft.vehicleYear()),
+                draft.loanAmount().map(ConsoleFormatter::money).orElse(UNSET),
+                draft.tenor().map(tenor -> tenor + " thn").orElse(UNSET),
+                sheet.lastResult().isPresent() ? "✔ calculated" : "not calculated"};
     }
 
     @Override

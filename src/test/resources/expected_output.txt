@@ -15,6 +15,21 @@ Monthly installments for Mobil Bekas 2022, principal Rp. 75,000,000.00:
 tahun 1 : Rp. 2,250,000.00/bln , Suku Bunga : 8%
 tahun 2 : Rp. 2,432,250.00/bln , Suku Bunga : 8,1%
 tahun 3 : Rp. 2,641,423.50/bln , Suku Bunga : 8,6%
+> save_sheet mobil-bekas
+Saved sheet 'mobil-bekas' from 'default'; 'mobil-bekas' is now the active sheet
+> switch_sheet default
+Switched to sheet 'default'
+Sheet 'default'
+  jenis   : Mobil
+  kondisi : Bekas
+  tahun   : 2022
+  nominal : Rp. 100,000,000.00
+  tenor   : 3 thn
+  dp      : Rp. 25,000,000.00
+  result  :
+    tahun 1 : Rp. 2,250,000.00/bln , Suku Bunga : 8%
+    tahun 2 : Rp. 2,432,250.00/bln , Suku Bunga : 8,1%
+    tahun 3 : Rp. 2,641,423.50/bln , Suku Bunga : 8,6%
 > jenis motor
 Vehicle type set to Motor
 > kondisi bekas
@@ -30,16 +45,25 @@ Down payment set to Rp. 5,000,000.00
 > calculate
 Monthly installments for Motor Bekas 2019, principal Rp. 15,000,000.00:
 tahun 1 : Rp. 1,362,500.00/bln , Suku Bunga : 9%
-> status
-Sheet 'default'
-  jenis   : Motor
+> save_sheet motor-bekas
+Saved sheet 'motor-bekas' from 'default'; 'motor-bekas' is now the active sheet
+> list_sheets
+  default      Motor/Bekas/2019  Rp. 20,000,000.00   1 thn  ✔ calculated
+  mobil-bekas  Mobil/Bekas/2022  Rp. 100,000,000.00  3 thn  ✔ calculated
+* motor-bekas  Motor/Bekas/2019  Rp. 20,000,000.00   1 thn  ✔ calculated
+> switch_sheet mobil-bekas
+Switched to sheet 'mobil-bekas'
+Sheet 'mobil-bekas'
+  jenis   : Mobil
   kondisi : Bekas
-  tahun   : 2019
-  nominal : Rp. 20,000,000.00
-  tenor   : 1 thn
-  dp      : Rp. 5,000,000.00
+  tahun   : 2022
+  nominal : Rp. 100,000,000.00
+  tenor   : 3 thn
+  dp      : Rp. 25,000,000.00
   result  :
-    tahun 1 : Rp. 1,362,500.00/bln , Suku Bunga : 9%
+    tahun 1 : Rp. 2,250,000.00/bln , Suku Bunga : 8%
+    tahun 2 : Rp. 2,432,250.00/bln , Suku Bunga : 8,1%
+    tahun 3 : Rp. 2,641,423.50/bln , Suku Bunga : 8,6%
 > show
 Available commands:
   show                  List all available commands
@@ -52,6 +76,9 @@ Available commands:
   status                Show the active sheet's inputs and its last result
   calculate             Validate the inputs and show the monthly installment for each year
   load                  Load an existing calculation from the web service and calculate it
+  save_sheet <name>     Save the active sheet's inputs and result as <name> and make it the active sheet
+  switch_sheet <name>   Make <name> the active sheet and show its inputs and result
+  list_sheets           List all sheets; '*' marks the active one
   exit                  Quit the application
 > exit
 Bye!
