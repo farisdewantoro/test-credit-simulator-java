@@ -6,6 +6,7 @@ loaded from a JSON web service. Several calculations can be kept side by side as
 
 - **Language:** Java 17, built with Maven (via the bundled Maven Wrapper)
 - **Runtime dependency:** Jackson, for the JSON web service only. Everything else is the JDK.
+- **Step-by-step user guide (setup → every use case):** [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md)
 - **Design notes:** [`docs/TECH_DESIGN.md`](docs/TECH_DESIGN.md)
 
 ```
