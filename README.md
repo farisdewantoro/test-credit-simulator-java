@@ -251,6 +251,9 @@ GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)):
 To enable publishing, add these repository secrets: `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` (a Docker
 Hub access token, not your password). The image is pushed as `$DOCKERHUB_USERNAME/credit-simulator`.
 
+See [`docs/CI_CD_GUIDE.md`](docs/CI_CD_GUIDE.md) for step-by-step setup, releasing, running the pipeline
+locally, troubleshooting and packaging the submission.
+
 ## 9. Configuration
 
 | Environment variable | Default | Purpose |
