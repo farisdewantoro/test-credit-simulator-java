@@ -67,6 +67,7 @@ Sheet 'mobil-bekas'
 > show
 Available commands:
   show                  List all available commands
+  new                   Guided input: asks for every field in order, then calculates
   jenis <Mobil|Motor>   Set the vehicle type
   kondisi <Baru|Bekas>  Set the vehicle condition (new or used)
   tahun <yyyy>          Set the vehicle year (4 digits)

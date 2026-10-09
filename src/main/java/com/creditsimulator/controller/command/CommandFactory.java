@@ -4,6 +4,7 @@ import com.creditsimulator.controller.command.impl.CalculateCommand;
 import com.creditsimulator.controller.command.impl.ExitCommand;
 import com.creditsimulator.controller.command.impl.ListSheetsCommand;
 import com.creditsimulator.controller.command.impl.LoadCommand;
+import com.creditsimulator.controller.command.impl.NewCalculationCommand;
 import com.creditsimulator.controller.command.impl.SaveSheetCommand;
 import com.creditsimulator.controller.command.impl.SetConditionCommand;
 import com.creditsimulator.controller.command.impl.SetDownPaymentCommand;
@@ -31,6 +32,7 @@ public final class CommandFactory {
     public static CommandFactory withDefaultCommands() {
         CommandFactory factory = new CommandFactory();
         factory.register(new ShowCommand(factory));
+        factory.register(new NewCalculationCommand());
         factory.register(new SetVehicleTypeCommand());
         factory.register(new SetConditionCommand());
         factory.register(new SetYearCommand());
